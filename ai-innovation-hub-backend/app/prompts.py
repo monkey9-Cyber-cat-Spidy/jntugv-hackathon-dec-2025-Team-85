@@ -1,6 +1,24 @@
 """
 Phase-specific prompts for generating startup artifacts.
 Each phase builds on previous phases' outputs.
+
+Prompting patterns intentionally used in this repo:
+- Zero-shot prompting is the default (instructions only).
+- Few-shot prompting is used for strict formats (especially JSON/code generation).
+- Prompt chaining is implemented in backend orchestration (later phase prompts include earlier artifacts).
+- For complex tasks, prompts may request internal step-by-step planning and a self-check,
+  while instructing the model to output only the final answer.
+"""
+
+# Internal reasoning / meta-prompting helpers.
+# These are appended to selected prompts to improve consistency without changing response schemas.
+INTERNAL_PLANNING_NOTE = """
+
+Process (do this internally, do not include your reasoning in the output):
+1) Identify missing info and make minimal, clearly-stated assumptions.
+2) Explore 2–3 plausible options/approaches where relevant.
+3) Select the best option based on the constraints and justify briefly in the final answer.
+4) Self-check for completeness, clarity, and alignment with the requested format.
 """
 
 SYSTEM_PROMPT = """You are an expert startup advisor and product strategist helping students and early-stage founders transform raw ideas into validated, actionable mini-startup concepts.
@@ -10,6 +28,9 @@ Your outputs should be:
 - Tailored to the user's experience level and constraints
 - Educational (explain WHY something matters, not just WHAT)
 - Realistic for small teams with limited resources
+
+When a task is complex, think step-by-step internally and do a quick self-check before answering.
+Do not reveal chain-of-thought reasoning; only output the final answer.
 
 Always structure your responses in clear sections with headers."""
 
@@ -292,39 +313,44 @@ For each metric:
 **Time Available:** {time_available}
 **Constraints:** {constraints}
 
-Recommend a complete tech stack:
+First, briefly evaluate 2–3 viable stack options (different levels of complexity) and then pick ONE recommended stack.
 
-**Frontend:**
-- Framework recommendation
-- Why it fits this project
-- Alternative options
+For each option, include:
+- What it is (frontend/backend/db/auth/deploy)
+- Pros/cons for this project
+- Risk (what could go wrong)
 
-**Backend:**
-- Framework/language
-- Why it fits
-- Alternatives
+Then provide the final recommended stack with:
 
-**Database:**
-- Type and specific recommendation
+**Frontend**
+- Recommendation
 - Why it fits
 
-**Authentication:**
-- Approach recommendation
+**Backend**
+- Recommendation
+- Why it fits
 
-**Hosting/Deployment:**
-- Platform recommendation
-- Cost estimate
+**Database**
+- Recommendation
+- Why it fits
 
-**Additional Services:**
-- Any APIs, tools, or services needed
+**Authentication**
+- Recommendation
 
-**Development Tools:**
-- IDE, version control, CI/CD suggestions
+**Hosting/Deployment**
+- Recommendation
+- Rough cost estimate
 
-Consider:
-- User's skill level: {skills}
-- Time constraints: {time_available}
-- Focus on simplicity for {user_type}""",
+**Additional Services**
+
+**Development Tools**
+
+Constraints to optimize for:
+- User skill level: {skills}
+- Time: {time_available}
+- Keep it MVP-simple for {user_type}
+
+""" + INTERNAL_PLANNING_NOTE,
 
         "api_design": """Design the API structure for this project.
 
@@ -333,29 +359,41 @@ Consider:
 **User Flows:** {user_flows}
 **Tech Stack:** {tech_stack}
 
-Design a RESTful API:
+Design an MVP-friendly RESTful API.
 
-**Core Resources:**
-List main entities/resources
+Before you write endpoints, identify:
+1) Core resources (entities)
+2) The 2–3 most important flows to support first (from the user flows)
 
-**Endpoints:**
-For each resource:
-- GET /resource - List
-- GET /resource/:id - Get one
-- POST /resource - Create
-- PUT /resource/:id - Update
-- DELETE /resource/:id - Delete
+Then provide:
 
-**Authentication Endpoints:**
-- Signup, Login, Logout flows
+**Core Resources**
 
-**Key Request/Response Examples:**
-Show JSON structure for 2-3 important endpoints
+**Endpoints** (grouped by resource)
+- GET /resource
+- GET /resource/:id
+- POST /resource
+- PUT /resource/:id
+- DELETE /resource/:id
 
-**Error Handling:**
-Standard error response format
+**Authentication**
 
-Keep it simple and appropriate for MVP scope.""",
+**Key request/response examples** (2–3 endpoints)
+
+**Error handling** (one standard JSON error shape)
+
+Few-shot example of the response style (use your project’s real names/fields below):
+
+Example error shape:
+{
+  "detail": "Human-readable message",
+  "code": "SOME_ERROR_CODE",
+  "meta": {"field": "optional"}
+}
+
+Keep it simple and appropriate for MVP scope.
+
+""" + INTERNAL_PLANNING_NOTE,
 
         "project_tasks": """Break down the project into development tasks.
 
@@ -480,6 +518,8 @@ Using the following key inputs, create a 1-2 page executive summary:
 
 **Tech Stack:** {tech_stack}
 
+Write an outline first (as headings + bullets), then write the final spec.
+
 Generate a spec with these sections:
 1. Executive Summary (2-3 sentences)
 2. Problem & Solution (brief)
@@ -488,7 +528,9 @@ Generate a spec with these sections:
 5. Top 3 Risks & Mitigations
 6. Immediate Next Steps (3-5 actions)
 
-Keep it concise and actionable - this is a summary document."""
+Keep it concise and actionable - this is a summary document.
+
+""" + INTERNAL_PLANNING_NOTE
     }
 }
 

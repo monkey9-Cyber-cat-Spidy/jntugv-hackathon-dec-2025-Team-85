@@ -38,13 +38,15 @@ from .schemas import (
     CodeGenFileResponse,
     CodeGenPlanResponse,
     CodeGenApplyPlanResponse,
+    ChatRequest,
+    ChatResponse,
 )
 from .services import (
     create_project_phases, generate_phase_artifacts,
     get_phase_by_type, get_all_artifacts,
     ensure_project_phases,
 )
-from .llm import check_llm_status, call_coder_model
+from .llm import check_llm_status, call_coder_model, call_primary_model
 from .prompts import SYSTEM_PROMPT
 from .codegen import (
     build_generate_file_prompt,
@@ -339,6 +341,77 @@ async def health_check():
         "api": "healthy",
         "llm": llm_status,
     }
+
+
+# --- Lightweight chat endpoint (used by the frontend floating Q/A bot) ---
+
+
+def _clean_chat_reply(text: str) -> str:
+    """Best-effort cleanup of markdown-ish formatting for chat UI.
+
+    The goal is to prevent noisy outputs like **bold**, `code`, and other symbols.
+    """
+
+    raw = (text or "").strip()
+    if not raw:
+        return ""
+
+    # Remove fenced code blocks but keep their contents.
+    raw = re.sub(r"```(?:[a-zA-Z0-9_-]+)?\n([\s\S]*?)```", r"\1", raw)
+
+    cleaned_lines: list[str] = []
+    for line in raw.splitlines():
+        s = line.rstrip()
+        # strip heading markers
+        s = re.sub(r"^\s{0,3}#{1,6}\s+", "", s)
+        # strip common markdown bullets (keep indentation)
+        s = re.sub(r"^(\s*)[-*+]\s+", r"\1", s)
+        # strip emphasis/backticks/links
+        s = clean_inline_markdown(s)
+        cleaned_lines.append(s)
+
+    out = "\n".join(cleaned_lines)
+    # Collapse excessive blank lines
+    out = re.sub(r"\n{3,}", "\n\n", out).strip()
+    return out
+
+
+@app.post("/chat", response_model=ChatResponse)
+async def chat(req: ChatRequest):
+    """Simple chat + generation endpoint.
+
+    - Uses the backend primary model (defaults to mistral via env).
+    - Accepts normal text messages (not only Q/A).
+    - `context` is optional and can include UI state (current idea, selected project, etc.).
+    """
+
+    message = (req.message or "").strip()
+    if not message:
+        raise HTTPException(status_code=400, detail="Message is required")
+
+    # Fast-path: greetings should feel natural and short (avoid dumping app descriptions).
+    lowered = message.lower().strip()
+    if re.fullmatch(r"(hi|hello|hey|hii+|hai|yo|good\s+morning|good\s+afternoon|good\s+evening)(!|\.|\s+there|\s+ai|\s+bot|\s+buddy)?", lowered):
+        return ChatResponse(reply="Hi! How can I help?")
+
+    ctx = (req.context or "").strip()
+    prompt = (
+        "You are a helpful assistant inside AI Innovation Hub.\n"
+        "Respond naturally to normal messages.\n"
+        "Be concise by default (1-2 short sentences). Only give long explanations if the user asks.\n"
+        "Do not list app features unless the user requests them.\n"
+        "When the user asks to generate a project description, output ONLY the description text (no bullets, no markdown).\n\n"
+    )
+    if ctx:
+        prompt += f"Context:\n{ctx}\n\n"
+    prompt += f"User: {message}\nAssistant:"
+
+    try:
+        reply = await call_primary_model(prompt, system_prompt=SYSTEM_PROMPT)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    return ChatResponse(reply=_clean_chat_reply(reply))
 
 
 # --- Project Endpoints ---

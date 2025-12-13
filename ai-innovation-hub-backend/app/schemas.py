@@ -144,3 +144,15 @@ class CodeGenApplyPlanResponse(BaseModel):
     session_id: int
     created_files: int
     total_files: int
+
+
+# --- Simple Q/A chat endpoint (for frontend floating bot) ---
+
+
+class ChatRequest(BaseModel):
+    message: str
+    context: Optional[str] = None
+
+
+class ChatResponse(BaseModel):
+    reply: str
