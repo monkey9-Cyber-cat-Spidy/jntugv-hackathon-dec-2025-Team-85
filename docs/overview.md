@@ -24,8 +24,8 @@ This repo already contains detailed documentation in both the frontend and backe
 
 ## 3. Team
 
-- KVS Manikanta — Full stack Developer & Team lead: https://www.linkedin.com/in/kvsmanikanta/
-- Sarathchandra Chitrada — DataBase designer: https://www.linkedin.com/in/sarathchandra-chitrada/
+- Kuncham Venkata Satya Manikanta — Full stack Developer & Team lead: https://www.linkedin.com/in/kvsmanikanta/
+- Chitrada Tejaswi Sarath chandra — DataBase designer: https://www.linkedin.com/in/sarathchandra-chitrada/
 - Lokesh Baggu — Frontend Developer: https://www.linkedin.com/in/lokesh-baggu-46b4b3299
 
 ## 4. Where to add hackathon-specific artifacts
