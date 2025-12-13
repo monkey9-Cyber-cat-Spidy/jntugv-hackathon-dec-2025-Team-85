@@ -4,10 +4,10 @@ AI Innovation Hub is an AI co-founder for students, early-stage founders, and ha
 
 ## Quick links
 
-- Start here (problem statement + end-to-end overview): `ai-innovation-hub-frontend/PROJECT_DOCUMENTATION.md`
-- How to run (backend + frontend): `docs/RUNBOOK.md`
-- System design: `docs/ARCHITECTURE.md`
-- Guardrails & evals: `ai-innovation-hub-backend/GUARDRAILS_AND_EVALS.md`
+- Start here (problem statement + end-to-end overview): [PROJECT_DOCUMENTATION.md](https://github.com/monkey9-Cyber-cat-Spidy/jntugv-hackathon-dec-2025-Team-85/blob/main/ai-innovation-hub-frontend/PROJECT_DOCUMENTATION.md)
+- How to run (backend + frontend): [Runbook](RUNBOOK.md)
+- System design: [Architecture](ARCHITECTURE.md)
+- Guardrails & evals: [GUARDRAILS_AND_EVALS.md](https://github.com/monkey9-Cyber-cat-Spidy/jntugv-hackathon-dec-2025-Team-85/blob/main/ai-innovation-hub-backend/GUARDRAILS_AND_EVALS.md)
 
 ## What this documentation site contains
 
