@@ -32,7 +32,7 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Docs Index: README.md
+  - Docs Index: overview.md
   - Architecture: ARCHITECTURE.md
   - Runbook: RUNBOOK.md
   - Evaluation: EVALUATION_NOTES.md
