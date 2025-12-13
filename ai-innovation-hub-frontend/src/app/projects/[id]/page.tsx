@@ -99,6 +99,25 @@ export default function ProjectPage({ params }: PageProps) {
     loadProject()
   }, [loadProject])
 
+  // Provide active project context to the floating bot.
+  useEffect(() => {
+    if (!project) return
+    try {
+      const summary = {
+        id: project.id,
+        name: project.name,
+        description: project.description,
+        user_type: project.user_type,
+        constraints: project.constraints,
+        skills: project.skills,
+        time_available: project.time_available,
+      }
+      localStorage.setItem("aih:activeProject", JSON.stringify(summary, null, 2))
+    } catch {
+      // ignore
+    }
+  }, [project])
+
   async function handleGenerate(phaseType: PhaseType, regenerate = false) {
     try {
       setGenerating(phaseType)

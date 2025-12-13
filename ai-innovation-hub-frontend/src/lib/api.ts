@@ -15,6 +15,8 @@ import {
   CodeGenFile,
   CodeGenPlan,
   CodeGenApplyPlanResult,
+  ChatRequest,
+  ChatResponse,
 } from "@/types"
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
@@ -122,6 +124,14 @@ export const api = {
       fetchApi<CodeGenApplyPlanResult>(`/codegen/sessions/${sessionId}/plan/apply`, {
         method: "POST",
         body: JSON.stringify({}),
+      }),
+  },
+
+  chat: {
+    send: (data: ChatRequest) =>
+      fetchApi<ChatResponse>("/chat", {
+        method: "POST",
+        body: JSON.stringify(data),
       }),
   },
 }

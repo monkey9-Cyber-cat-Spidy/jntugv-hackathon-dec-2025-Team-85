@@ -151,6 +151,17 @@ export interface CodeGenApplyPlanResult {
   total_files: number
 }
 
+// --- Chat bot ---
+
+export interface ChatRequest {
+  message: string
+  context?: string
+}
+
+export interface ChatResponse {
+  reply: string
+}
+
 export const PHASE_ORDER: PhaseType[] = [
   "ideation",
   "concept_design",

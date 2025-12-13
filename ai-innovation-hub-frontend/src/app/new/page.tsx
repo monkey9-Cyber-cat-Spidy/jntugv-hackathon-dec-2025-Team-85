@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,15 +16,32 @@ export default function NewProject() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     user_type: "founder" as UserType,
     constraints: "",
     skills: "",
-    time_available: ""
+    time_available: "",
   })
+
+  // Provide live context to the floating bot while the user is typing.
+  useEffect(() => {
+    try {
+      const draft = {
+        name: formData.name,
+        description: formData.description,
+        user_type: formData.user_type,
+        constraints: formData.constraints,
+        skills: formData.skills,
+        time_available: formData.time_available,
+      }
+      localStorage.setItem("aih:draftIdea", JSON.stringify(draft, null, 2))
+    } catch {
+      // ignore
+    }
+  }, [formData])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -155,7 +172,7 @@ export default function NewProject() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push("/")}
+                onClick={() => router.push("/dashboard")}
                 disabled={loading}
               >
                 Cancel
