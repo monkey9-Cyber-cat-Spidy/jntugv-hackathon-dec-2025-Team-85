@@ -1,0 +1,1059 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for AI Innovation Hub (JNTUGV Hackathon Dec 2025)">
+      
+      
+      
+        <link rel="canonical" href="https://monkey9-cyber-cat-spidy.github.io/jntugv-hackathon-dec-2025-Team-85/ARCHITECTURE/">
+      
+      
+        <link rel="prev" href="../multi_prompt_stylings/">
+      
+      
+        <link rel="next" href="../RUNBOOK/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+    
+    
+      
+        <title>Architecture - AI Innovation Hub Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.a40c8224.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="AI Innovation Hub Docs" class="md-header__button md-logo" aria-label="AI Innovation Hub Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI Innovation Hub Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Architecture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/monkey9-Cyber-cat-Spidy/jntugv-hackathon-dec-2025-Team-85" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    monkey9-Cyber-cat-Spidy/jntugv-hackathon-dec-2025-Team-85
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AI Innovation Hub Docs" class="md-nav__button md-logo" aria-label="AI Innovation Hub Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AI Innovation Hub Docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/monkey9-Cyber-cat-Spidy/jntugv-hackathon-dec-2025-Team-85" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    monkey9-Cyber-cat-Spidy/jntugv-hackathon-dec-2025-Team-85
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docs Index
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Product UX
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Product UX
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chatbot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Floating Chatbot
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi_prompt_stylings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multi-prompt stylings
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-system-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. System goal
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-conceptual-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Conceptual architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Conceptual architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-system-architecture-high-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 System architecture (high level)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-frontend-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 Frontend architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-backend-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 Backend architecture
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Core concepts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Core concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-projects" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 Projects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 Phases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-artifacts-versioned" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 Artifacts (versioned)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-code-generation-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4 Code generation modes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-frontend-nextjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 Frontend (Next.js)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-backend-fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 Backend (FastAPI)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-llm-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3 LLM layer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.4 Persistence
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-guardrails-and-evaluation-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Guardrails and evaluation hooks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-key-flows" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Key flows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Key flows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-frontend-workflow-phase-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.1 Frontend workflow (phase generation)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-backend-workflow-file-by-file-code-generator" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.2 Backend workflow (file-by-file code generator)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-chatbot-architecture-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.3 Chatbot architecture + flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-end-to-end-data-flow-projects-phases-exports" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.4 End-to-end data flow (projects → phases → exports)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RUNBOOK/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Runbook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EVALUATION_NOTES/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evaluation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SOURCES/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h1>
+<p>This document consolidates the key architectural details of <strong>AI Innovation Hub</strong> into one place for reviewers.</p>
+<p>Primary sources:
+- <code>ai-innovation-hub-frontend/PROJECT_DOCUMENTATION.md</code>
+- <code>ai-innovation-hub-backend/BACKEND_DOCS.md</code>
+- <code>ai-innovation-hub-frontend/FRONTEND_DOCS.md</code></p>
+<h2 id="1-system-goal">1. System goal<a class="headerlink" href="#1-system-goal" title="Permanent link">&para;</a></h2>
+<p>AI Innovation Hub transforms a rough, unstructured idea into a <strong>validated, structured mini-startup blueprint</strong>, using a multi-phase workflow driven by LLM generation and persisted as versioned artifacts.</p>
+<h2 id="2-conceptual-architecture">2. Conceptual architecture<a class="headerlink" href="#2-conceptual-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="21-system-architecture-high-level">2.1 System architecture (high level)<a class="headerlink" href="#21-system-architecture-high-level" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+  U[User] --&gt;|Browser| FE[Next.js Frontend]
+  FE --&gt;|REST| BE[FastAPI Backend]
+
+  BE --&gt;|OpenAI-compatible HTTP| LLM["LM Studio (OpenAI-compatible LLM)"]
+  BE --&gt;|SQLModel| DB[("SQLite: innovation_hub.db")]
+
+  FE --&gt;|Download exports| EXP["Spec export (md, pdf, docx)"]
+  BE --&gt;|Build| EXP
+
+  FE --&gt;|Download code| ZIP["Generated app ZIP"]
+  BE --&gt;|Build ZIP from JSON or codegen session| ZIP</code></pre>
+<h3 id="22-frontend-architecture">2.2 Frontend architecture<a class="headerlink" href="#22-frontend-architecture" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TD
+  subgraph Next.js App Router
+    HOME["/ (Landing)"]
+    DASH["/dashboard"]
+    NEW["/new"]
+    PROJ["/projects/:id"]
+    CODEGEN["/projects/:id/codegen"]
+  end
+
+  HOME --&gt; DASH
+  HOME --&gt; NEW
+  DASH --&gt; PROJ
+  PROJ --&gt; CODEGEN
+
+  BOT[FloatingChatBot]:::ui
+
+  HOME --&gt; BOT
+  DASH --&gt; BOT
+  NEW --&gt; BOT
+  PROJ --&gt; BOT
+  CODEGEN --&gt; BOT
+
+  API[src/lib/api.ts]:::code
+  TYPES[src/types/index.ts]:::code
+
+  HOME --&gt; API
+  DASH --&gt; API
+  NEW --&gt; API
+  PROJ --&gt; API
+  CODEGEN --&gt; API
+
+  API --&gt;|HTTP| BE[FastAPI Backend]
+
+  NEW --&gt;|writes draft context| LS[(localStorage)]:::store
+  PROJ --&gt;|writes active project summary| LS
+  BOT --&gt;|reads context| LS
+
+  classDef ui fill:#eef2ff,stroke:#6366f1,color:#111827;
+  classDef code fill:#ecfeff,stroke:#14b8a6,color:#111827;
+  classDef store fill:#fff7ed,stroke:#f59e0b,color:#111827;</code></pre>
+<h3 id="23-backend-architecture">2.3 Backend architecture<a class="headerlink" href="#23-backend-architecture" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TD
+  ROUTES["app/main.py\nFastAPI routes"] --&gt; SVC["app/services.py\nphase orchestration"]
+  SVC --&gt; PROMPTS["app/prompts.py\nprompt templates"]
+  SVC --&gt; LLM["app/llm.py\nOpenAI-compatible client"]
+  ROUTES --&gt; GUARD["app/guardrails.py\nJSON/path validation"]
+  ROUTES --&gt; CODEGEN["app/codegen.py\nfile-by-file prompts/parsing"]
+
+  ROUTES --&gt; DB[("SQLite via SQLModel")]
+  SVC --&gt; DB
+  CODEGEN --&gt; DB
+
+  LLM --&gt; LMSTUDIO["LM Studio server\nchat/completions"]</code></pre>
+<h2 id="3-core-concepts">3. Core concepts<a class="headerlink" href="#3-core-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="31-projects">3.1 Projects<a class="headerlink" href="#31-projects" title="Permanent link">&para;</a></h3>
+<p>A <strong>Project</strong> stores the user’s input (idea, constraints, skills, time available) and acts as the root entity for generation.</p>
+<h3 id="32-phases">3.2 Phases<a class="headerlink" href="#32-phases" title="Permanent link">&para;</a></h3>
+<p>A project is guided through ordered phases:</p>
+<ul>
+<li><code>ideation</code></li>
+<li><code>concept_design</code></li>
+<li><code>launch_content</code></li>
+<li><code>validation</code></li>
+<li><code>tech_build</code></li>
+<li><code>code_generation</code></li>
+<li><code>final_spec</code></li>
+</ul>
+<p>Each phase generates one or more <strong>artifacts</strong>.</p>
+<h3 id="33-artifacts-versioned">3.3 Artifacts (versioned)<a class="headerlink" href="#33-artifacts-versioned" title="Permanent link">&para;</a></h3>
+<p>Artifacts are the generated outputs (problem statement, personas, feature list, etc.).</p>
+<ul>
+<li>Stored in SQLite</li>
+<li>Regeneration creates a new <strong>version</strong></li>
+<li>Frontend can display multiple versions and allow selection when exporting a “final” spec</li>
+</ul>
+<h3 id="34-code-generation-modes">3.4 Code generation modes<a class="headerlink" href="#34-code-generation-modes" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Phase-based multi-file generation</li>
+<li>The <code>code_generation</code> phase produces a single JSON payload representing multiple files.</li>
+<li>
+<p>The backend can export a ZIP from the latest generated artifact.</p>
+</li>
+<li>
+<p>File-by-file code generation (chat-style)</p>
+</li>
+<li>Creates a codegen session tied to a project.</li>
+<li>Generates individual files with a strict JSON format (<code>{path, content}</code>).</li>
+<li>Files can be edited/saved server-side and zipped.</li>
+</ol>
+<h2 id="4-components">4. Components<a class="headerlink" href="#4-components" title="Permanent link">&para;</a></h2>
+<h3 id="41-frontend-nextjs">4.1 Frontend (Next.js)<a class="headerlink" href="#41-frontend-nextjs" title="Permanent link">&para;</a></h3>
+<p>Responsibilities:
+- Collect project inputs
+- Provide a multi-phase workspace UI
+- Render artifacts as markdown
+- Trigger generation/regeneration per phase
+- Allow per-phase “custom instructions” (prompt styling)
+- Provide codegen UI (phase-based and file-by-file)
+- Trigger export flows (full export + “final spec” from selected variants)
+- Provide lightweight help via the floating chatbot</p>
+<p>Key routes (high-level):
+- <code>/</code> landing page (Spline hero background)
+- <code>/dashboard</code> projects dashboard
+- <code>/new</code> create new project
+- <code>/projects/[id]</code> multi-phase workspace
+- <code>/projects/[id]/codegen</code> file-by-file generator</p>
+<p>Notable UI enhancements:
+- <strong>Spline hero</strong>: the landing page uses <code>@splinetool/react-spline</code> to render a 3D scene in the background.
+- <strong>Floating chatbot</strong>: a global chat widget that calls backend <code>POST /chat</code> and can include live UI context.</p>
+<h3 id="42-backend-fastapi">4.2 Backend (FastAPI)<a class="headerlink" href="#42-backend-fastapi" title="Permanent link">&para;</a></h3>
+<p>Responsibilities:
+- REST API for projects/phases/artifacts
+- LLM orchestration for generation
+- Persistence + versioning via SQLModel
+- Export pipeline (markdown + PDF/DOCX conversions)
+- Code ZIP export for generated apps
+- Lightweight chat endpoint for the UI chatbot (<code>POST /chat</code>)</p>
+<p>Backend code layout (high-level):
+- <code>app/main.py</code>: FastAPI routes + export + codegen endpoints + <code>POST /chat</code>
+- <code>app/services.py</code>: phase generation orchestration
+- <code>app/prompts.py</code>: prompt templates
+- <code>app/llm.py</code>: OpenAI-compatible LLM client (LM Studio)
+- <code>app/models.py</code>: SQLModel models</p>
+<h3 id="43-llm-layer">4.3 LLM layer<a class="headerlink" href="#43-llm-layer" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Backend calls an OpenAI-compatible endpoint configured via <code>.env</code> (LM Studio by default).</li>
+<li>Uses a primary model for product/business content.</li>
+<li>Uses a coder model for tech-heavy and code artifacts.</li>
+</ul>
+<h3 id="44-persistence">4.4 Persistence<a class="headerlink" href="#44-persistence" title="Permanent link">&para;</a></h3>
+<ul>
+<li>SQLite database (<code>innovation_hub.db</code> by default)</li>
+<li>Stores:</li>
+<li>projects</li>
+<li>phases</li>
+<li>artifacts</li>
+<li>codegen sessions/files/messages</li>
+</ul>
+<h2 id="5-guardrails-and-evaluation-hooks">5. Guardrails and evaluation hooks<a class="headerlink" href="#5-guardrails-and-evaluation-hooks" title="Permanent link">&para;</a></h2>
+<p>The repo includes guardrails and tests to improve reliability where strict JSON is required (code generation and ZIP export).</p>
+<ul>
+<li>Docs: <code>ai-innovation-hub-backend/GUARDRAILS_AND_EVALS.md</code></li>
+<li>Unit tests validate JSON parsing, safe paths, and payload constraints.</li>
+</ul>
+<h2 id="6-key-flows">6. Key flows<a class="headerlink" href="#6-key-flows" title="Permanent link">&para;</a></h2>
+<h3 id="61-frontend-workflow-phase-generation">6.1 Frontend workflow (phase generation)<a class="headerlink" href="#61-frontend-workflow-phase-generation" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+  autonumber
+  actor User
+  participant FE as Next.js UI
+  participant API as src/lib/api.ts
+  participant BE as FastAPI
+
+  User-&gt;&gt;FE: Create project (/new)
+  FE-&gt;&gt;API: projects.create()
+  API-&gt;&gt;BE: POST /projects
+  BE--&gt;&gt;API: project
+  API--&gt;&gt;FE: project
+  FE--&gt;&gt;User: Navigate to /projects/{id}
+
+  User-&gt;&gt;FE: Click Generate for a phase
+  FE-&gt;&gt;API: phases.generate(projectId, phaseType)
+  API-&gt;&gt;BE: POST /projects/:id/phases/:phase_type/generate
+  BE--&gt;&gt;API: phase + artifacts
+  API--&gt;&gt;FE: phase + artifacts
+  FE--&gt;&gt;User: Render artifacts (markdown)</code></pre>
+<h3 id="62-backend-workflow-file-by-file-code-generator">6.2 Backend workflow (file-by-file code generator)<a class="headerlink" href="#62-backend-workflow-file-by-file-code-generator" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+  autonumber
+  actor User
+  participant FE as Next.js UI (/projects/:id/codegen)
+  participant BE as FastAPI
+  participant DB as SQLite
+  participant LLM as Coder/Primary model
+
+  User-&gt;&gt;FE: Open codegen page
+  FE-&gt;&gt;BE: GET /projects/:id/codegen/sessions/latest
+  alt no existing session
+    FE-&gt;&gt;BE: POST /projects/:id/codegen/sessions
+  end
+  BE-&gt;&gt;DB: Create/Fetch CodeGenSession
+  DB--&gt;&gt;BE: session_id
+  BE--&gt;&gt;FE: session
+
+  FE-&gt;&gt;BE: GET /codegen/sessions/{session_id}
+  BE-&gt;&gt;DB: Load CodeGenFiles + CodeGenMessages
+  BE--&gt;&gt;FE: session detail
+
+  User-&gt;&gt;FE: Generate a file
+  FE-&gt;&gt;BE: POST /codegen/sessions/:session_id/generate-file {path, instructions}
+  BE-&gt;&gt;DB: Load latest artifacts (tech_stack/api_design/etc.)
+  BE-&gt;&gt;LLM: Generate single-file JSON {path, content}
+  LLM--&gt;&gt;BE: JSON
+  BE-&gt;&gt;BE: Guardrails validate path + JSON
+  BE-&gt;&gt;DB: Upsert CodeGenFile + store CodeGenMessage
+  BE--&gt;&gt;FE: saved file
+
+  User-&gt;&gt;FE: Download ZIP
+  FE-&gt;&gt;BE: GET /codegen/sessions/:session_id/zip
+  BE-&gt;&gt;DB: Fetch all stored files
+  BE--&gt;&gt;FE: ZIP download</code></pre>
+<h3 id="63-chatbot-architecture-flow">6.3 Chatbot architecture + flow<a class="headerlink" href="#63-chatbot-architecture-flow" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+  autonumber
+  actor User
+  participant Bot as FloatingChatBot (frontend)
+  participant BE as FastAPI POST /chat
+  participant LLM as Primary model (mistral)
+
+  User-&gt;&gt;Bot: Type message (e.g., "hi" / "generate description")
+  Bot-&gt;&gt;Bot: Read localStorage context (draft idea / active project)
+  Bot-&gt;&gt;BE: POST /chat {message, context}
+
+  alt Greeting fast-path
+    BE--&gt;&gt;Bot: "Hi! How can I help?"
+  else Normal message
+    BE-&gt;&gt;LLM: call_primary_model(prompt + context)
+    LLM--&gt;&gt;BE: reply (may contain markdown)
+    BE-&gt;&gt;BE: sanitize reply (remove **, `, headings)
+    BE--&gt;&gt;Bot: cleaned reply
+  end
+
+  Bot--&gt;&gt;User: Render message bubble</code></pre>
+<h3 id="64-end-to-end-data-flow-projects-phases-exports">6.4 End-to-end data flow (projects → phases → exports)<a class="headerlink" href="#64-end-to-end-data-flow-projects-phases-exports" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+  autonumber
+  actor User
+  participant FE as Next.js UI
+  participant BE as FastAPI API
+  participant DB as SQLite
+  participant LLM as LLM Server
+
+  User-&gt;&gt;FE: Enter idea + constraints
+  FE-&gt;&gt;BE: POST /projects
+  BE-&gt;&gt;DB: Insert Project + Phases
+  DB--&gt;&gt;BE: project_id
+  BE--&gt;&gt;FE: Project created
+
+  User-&gt;&gt;FE: Generate a phase
+  FE-&gt;&gt;BE: POST /projects/:id/phases/:phase_type/generate
+  BE-&gt;&gt;DB: Load project + prior artifacts
+  BE-&gt;&gt;LLM: /chat/completions (primary/coder model)
+  LLM--&gt;&gt;BE: Generated artifact text/JSON
+  BE-&gt;&gt;DB: Store Artifact (versioned)
+  BE--&gt;&gt;FE: Updated phase + artifacts
+
+  User-&gt;&gt;FE: Export spec / download ZIP
+  FE-&gt;&gt;BE: GET /projects/:id/export-file OR POST /projects/:id/codezip
+  BE-&gt;&gt;DB: Fetch latest chosen artifacts / generated app payload
+  BE--&gt;&gt;FE: File download (PDF/DOCX/MD or ZIP)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.instant", "navigation.top", "search.suggest", "search.highlight", "toc.integrate"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.60a45f97.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../javascripts/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>
