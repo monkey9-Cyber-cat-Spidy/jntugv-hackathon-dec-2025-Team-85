@@ -33,6 +33,9 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Docs Index: overview.md
+  - Product UX:
+    - Floating Chatbot: chatbot.md
+    - Multi-prompt stylings: multi_prompt_stylings.md
   - Architecture: ARCHITECTURE.md
   - Runbook: RUNBOOK.md
   - Evaluation: EVALUATION_NOTES.md

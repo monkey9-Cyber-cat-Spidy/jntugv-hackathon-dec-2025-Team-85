@@ -6,6 +6,8 @@ This repo already contains detailed documentation in both the frontend and backe
 
 - Architecture (consolidated): `docs/ARCHITECTURE.md`
 - Runbook (how to run/test): `docs/RUNBOOK.md`
+- Floating chatbot (UI + backend endpoint): `docs/chatbot.md`
+- Prompting approach (“multi prompt stylings”): `docs/multi_prompt_stylings.md`
 - Problem statement + end-to-end overview: `ai-innovation-hub-frontend/PROJECT_DOCUMENTATION.md`
 - Backend setup + endpoints: `ai-innovation-hub-backend/BACKEND_DOCS.md`
 - Frontend setup + routes: `ai-innovation-hub-frontend/FRONTEND_DOCS.md`
@@ -15,9 +17,10 @@ This repo already contains detailed documentation in both the frontend and backe
 ## 2. Suggested reading order (judges)
 
 1. `ai-innovation-hub-frontend/PROJECT_DOCUMENTATION.md`
-2. `ai-innovation-hub-backend/README.md` (then `BACKEND_DOCS.md`)
-3. `ai-innovation-hub-backend/GUARDRAILS_AND_EVALS.md`
-4. `ai-innovation-hub-frontend/PRESENTATION_OUTLINE.md`
+2. `docs/ARCHITECTURE.md`
+3. `docs/RUNBOOK.md`
+4. `ai-innovation-hub-backend/README.md` (then `BACKEND_DOCS.md`)
+5. `ai-innovation-hub-backend/GUARDRAILS_AND_EVALS.md`
 
 ## 3. Where to add hackathon-specific artifacts
 

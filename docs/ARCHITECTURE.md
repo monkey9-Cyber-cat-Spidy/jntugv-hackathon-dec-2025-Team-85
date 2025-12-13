@@ -81,14 +81,21 @@ Responsibilities:
 - Provide a multi-phase workspace UI
 - Render artifacts as markdown
 - Trigger generation/regeneration per phase
+- Allow per-phase “custom instructions” (prompt styling)
 - Provide codegen UI (phase-based and file-by-file)
-- Trigger export flows
+- Trigger export flows (full export + “final spec” from selected variants)
+- Provide lightweight help via the floating chatbot
 
 Key routes (high-level):
-- `/` projects dashboard
+- `/` landing page (Spline hero background)
+- `/dashboard` projects dashboard
 - `/new` create new project
 - `/projects/[id]` multi-phase workspace
 - `/projects/[id]/codegen` file-by-file generator
+
+Notable UI enhancements:
+- **Spline hero**: the landing page uses `@splinetool/react-spline` to render a 3D scene in the background.
+- **Floating chatbot**: a global chat widget that calls backend `POST /chat` and can include live UI context.
 
 ### 4.2 Backend (FastAPI)
 Responsibilities:
@@ -97,9 +104,10 @@ Responsibilities:
 - Persistence + versioning via SQLModel
 - Export pipeline (markdown + PDF/DOCX conversions)
 - Code ZIP export for generated apps
+- Lightweight chat endpoint for the UI chatbot (`POST /chat`)
 
 Backend code layout (high-level):
-- `app/main.py`: FastAPI routes + export + codegen endpoints
+- `app/main.py`: FastAPI routes + export + codegen endpoints + `POST /chat`
 - `app/services.py`: phase generation orchestration
 - `app/prompts.py`: prompt templates
 - `app/llm.py`: OpenAI-compatible LLM client (LM Studio)

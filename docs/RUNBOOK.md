@@ -64,6 +64,12 @@ npm run dev
 Frontend URL:
 - `http://localhost:3000`
 
+### 3.2 Notes on the Spline hero background (landing page)
+
+The landing page (`/`) renders a Spline 3D scene via `@splinetool/react-spline` and loads a `.splinecode` scene from a hosted URL.
+
+If you are running fully offline (no external network access), you can temporarily disable the hero by removing the `SplineHero` usage in `ai-innovation-hub-frontend/src/app/page.tsx`.
+
 ### 3.1 Frontend configuration
 
 Create `.env.local`:
