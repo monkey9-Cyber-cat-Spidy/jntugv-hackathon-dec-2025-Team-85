@@ -13,28 +13,83 @@ AI Innovation Hub transforms a rough, unstructured idea into a **validated, stru
 
 ## 2. Conceptual architecture
 
-```text
-[User Idea + Context]
-         |
-         v
- [Next.js Frontend]
-         |
-         v
-  [FastAPI Backend]
-  - phase orchestration
-  - artifact versioning
-  - export (md/pdf/docx)
-  - code generation (zip)
-         |
-         v
-[LLM Provider]
-- LM Studio OpenAI-compatible server
-- (or any OpenAI-compatible endpoint)
-         |
-         v
-[SQLite Database]
-- projects / phases / artifacts
-- codegen sessions / files / messages
+### 2.1 System architecture (high level)
+
+```mermaid
+flowchart LR
+  U[User] -->|Browser| FE[Next.js Frontend]
+  FE -->|REST| BE[FastAPI Backend]
+
+  BE -->|OpenAI-compatible HTTP| LLM["LM Studio (OpenAI-compatible LLM)"]
+  BE -->|SQLModel| DB[("SQLite: innovation_hub.db")]
+
+  FE -->|Download exports| EXP["Spec export (md, pdf, docx)"]
+  BE -->|Build| EXP
+
+  FE -->|Download code| ZIP["Generated app ZIP"]
+  BE -->|Build ZIP from JSON or codegen session| ZIP
+```
+
+### 2.2 Frontend architecture
+
+```mermaid
+flowchart TD
+  subgraph Next.js App Router
+    HOME["/ (Landing)"]
+    DASH["/dashboard"]
+    NEW["/new"]
+    PROJ["/projects/:id"]
+    CODEGEN["/projects/:id/codegen"]
+  end
+
+  HOME --> DASH
+  HOME --> NEW
+  DASH --> PROJ
+  PROJ --> CODEGEN
+
+  BOT[FloatingChatBot]:::ui
+
+  HOME --> BOT
+  DASH --> BOT
+  NEW --> BOT
+  PROJ --> BOT
+  CODEGEN --> BOT
+
+  API[src/lib/api.ts]:::code
+  TYPES[src/types/index.ts]:::code
+
+  HOME --> API
+  DASH --> API
+  NEW --> API
+  PROJ --> API
+  CODEGEN --> API
+
+  API -->|HTTP| BE[FastAPI Backend]
+
+  NEW -->|writes draft context| LS[(localStorage)]:::store
+  PROJ -->|writes active project summary| LS
+  BOT -->|reads context| LS
+
+  classDef ui fill:#eef2ff,stroke:#6366f1,color:#111827;
+  classDef code fill:#ecfeff,stroke:#14b8a6,color:#111827;
+  classDef store fill:#fff7ed,stroke:#f59e0b,color:#111827;
+```
+
+### 2.3 Backend architecture
+
+```mermaid
+flowchart TD
+  ROUTES["app/main.py\nFastAPI routes"] --> SVC["app/services.py\nphase orchestration"]
+  SVC --> PROMPTS["app/prompts.py\nprompt templates"]
+  SVC --> LLM["app/llm.py\nOpenAI-compatible client"]
+  ROUTES --> GUARD["app/guardrails.py\nJSON/path validation"]
+  ROUTES --> CODEGEN["app/codegen.py\nfile-by-file prompts/parsing"]
+
+  ROUTES --> DB[("SQLite via SQLModel")]
+  SVC --> DB
+  CODEGEN --> DB
+
+  LLM --> LMSTUDIO["LM Studio server\nchat/completions"]
 ```
 
 ## 3. Core concepts
@@ -135,25 +190,123 @@ The repo includes guardrails and tests to improve reliability where strict JSON 
 
 ## 6. Key flows
 
-### 6.1 Phase generation
-1. Frontend calls backend: `POST /projects/{id}/phases/{phase_type}/generate`
-2. Backend composes prompt from project context + prior artifacts
-3. Backend calls LLM
-4. Backend stores artifacts (versioned)
-5. Frontend displays updated artifacts
+### 6.1 Frontend workflow (phase generation)
 
-### 6.2 Export flow
-- Full export:
-  - `GET /projects/{id}/export` (markdown JSON)
-  - `GET /projects/{id}/export-file?format=markdown|pdf|docx`
-- Final export (selected variants):
-  - `POST /projects/{id}/export-custom`
+```mermaid
+sequenceDiagram
+  autonumber
+  actor User
+  participant FE as Next.js UI
+  participant API as src/lib/api.ts
+  participant BE as FastAPI
 
-### 6.3 Code ZIP flow
-- Phase-based ZIP:
-  - generate `code_generation` phase
-  - `POST /projects/{id}/codezip` to build ZIP from JSON payload
-- File-by-file ZIP:
-  - create/continue session
-  - generate/save files
-  - `GET /codegen/sessions/{session_id}/zip`
+  User->>FE: Create project (/new)
+  FE->>API: projects.create()
+  API->>BE: POST /projects
+  BE-->>API: project
+  API-->>FE: project
+  FE-->>User: Navigate to /projects/{id}
+
+  User->>FE: Click Generate for a phase
+  FE->>API: phases.generate(projectId, phaseType)
+  API->>BE: POST /projects/:id/phases/:phase_type/generate
+  BE-->>API: phase + artifacts
+  API-->>FE: phase + artifacts
+  FE-->>User: Render artifacts (markdown)
+```
+
+### 6.2 Backend workflow (file-by-file code generator)
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor User
+  participant FE as Next.js UI (/projects/:id/codegen)
+  participant BE as FastAPI
+  participant DB as SQLite
+  participant LLM as Coder/Primary model
+
+  User->>FE: Open codegen page
+  FE->>BE: GET /projects/:id/codegen/sessions/latest
+  alt no existing session
+    FE->>BE: POST /projects/:id/codegen/sessions
+  end
+  BE->>DB: Create/Fetch CodeGenSession
+  DB-->>BE: session_id
+  BE-->>FE: session
+
+  FE->>BE: GET /codegen/sessions/{session_id}
+  BE->>DB: Load CodeGenFiles + CodeGenMessages
+  BE-->>FE: session detail
+
+  User->>FE: Generate a file
+  FE->>BE: POST /codegen/sessions/:session_id/generate-file {path, instructions}
+  BE->>DB: Load latest artifacts (tech_stack/api_design/etc.)
+  BE->>LLM: Generate single-file JSON {path, content}
+  LLM-->>BE: JSON
+  BE->>BE: Guardrails validate path + JSON
+  BE->>DB: Upsert CodeGenFile + store CodeGenMessage
+  BE-->>FE: saved file
+
+  User->>FE: Download ZIP
+  FE->>BE: GET /codegen/sessions/:session_id/zip
+  BE->>DB: Fetch all stored files
+  BE-->>FE: ZIP download
+```
+
+### 6.3 Chatbot architecture + flow
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor User
+  participant Bot as FloatingChatBot (frontend)
+  participant BE as FastAPI POST /chat
+  participant LLM as Primary model (mistral)
+
+  User->>Bot: Type message (e.g., "hi" / "generate description")
+  Bot->>Bot: Read localStorage context (draft idea / active project)
+  Bot->>BE: POST /chat {message, context}
+
+  alt Greeting fast-path
+    BE-->>Bot: "Hi! How can I help?"
+  else Normal message
+    BE->>LLM: call_primary_model(prompt + context)
+    LLM-->>BE: reply (may contain markdown)
+    BE->>BE: sanitize reply (remove **, `, headings)
+    BE-->>Bot: cleaned reply
+  end
+
+  Bot-->>User: Render message bubble
+```
+
+### 6.4 End-to-end data flow (projects → phases → exports)
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor User
+  participant FE as Next.js UI
+  participant BE as FastAPI API
+  participant DB as SQLite
+  participant LLM as LLM Server
+
+  User->>FE: Enter idea + constraints
+  FE->>BE: POST /projects
+  BE->>DB: Insert Project + Phases
+  DB-->>BE: project_id
+  BE-->>FE: Project created
+
+  User->>FE: Generate a phase
+  FE->>BE: POST /projects/:id/phases/:phase_type/generate
+  BE->>DB: Load project + prior artifacts
+  BE->>LLM: /chat/completions (primary/coder model)
+  LLM-->>BE: Generated artifact text/JSON
+  BE->>DB: Store Artifact (versioned)
+  BE-->>FE: Updated phase + artifacts
+
+  User->>FE: Export spec / download ZIP
+  FE->>BE: GET /projects/:id/export-file OR POST /projects/:id/codezip
+  BE->>DB: Fetch latest chosen artifacts / generated app payload
+  BE-->>FE: File download (PDF/DOCX/MD or ZIP)
+```
