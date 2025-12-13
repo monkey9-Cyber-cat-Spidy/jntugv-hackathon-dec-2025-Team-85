@@ -2,6 +2,8 @@
 
 AI Innovation Hub is an **AI co-founder** for students, early-stage founders, and hackathon teams: it transforms a rough idea into a **validated, structured, build-ready mini-startup blueprint** using Generative AI workflows.
 
+**Live documentation site:** https://monkey9-cyber-cat-spidy.github.io/jntugv-hackathon-dec-2025-Team-85/
+
 ## Problem Statement
 Students, early-stage founders, and hackathon participants often begin with raw, unstructured ideas but lack the experience to convert them into clear, validated, and buildable product concepts. They struggle with defining user personas, shaping solution directions, prioritizing feature sets, and preparing early assets like landing-page content, pitches, or workflow diagrams. As a result, teams waste time, lose clarity, and fail to move ideas toward implementation.
 
