@@ -22,7 +22,13 @@ This repo already contains detailed documentation in both the frontend and backe
 4. `ai-innovation-hub-backend/README.md` (then `BACKEND_DOCS.md`)
 5. `ai-innovation-hub-backend/GUARDRAILS_AND_EVALS.md`
 
-## 3. Where to add hackathon-specific artifacts
+## 3. Team
+
+- KVS Manikanta — Full stack Developer & Team lead: https://www.linkedin.com/in/kvsmanikanta/
+- Sarathchandra Chitrada — DataBase designer: https://www.linkedin.com/in/sarathchandra-chitrada/
+- Lokesh Baggu — Frontend Developer: https://www.linkedin.com/in/lokesh-baggu-46b4b3299
+
+## 4. Where to add hackathon-specific artifacts
 
 - Demo video link: update the repo root `README.md`
 - AI chat logs: add to `ai_chat_logs/` (recommended) and link from root `README.md`

@@ -252,6 +252,12 @@ This opens two terminal windows:
 - Backend: `http://localhost:8000/docs`
 - Frontend: `http://localhost:3000`
 
+## Team
+
+- **Kuncham Venkata Satya Manikanta** — Full stack Developer & Team lead: https://www.linkedin.com/in/kvsmanikanta/
+- **Sarathchandra Chitrada** — DataBase designer: https://www.linkedin.com/in/sarathchandra-chitrada/
+- **Lokesh Baggu** — Frontend Developer: https://www.linkedin.com/in/lokesh-baggu-46b4b3299
+
 ## More Documentation
 
 - Central docs index (for judges): `docs/README.md`

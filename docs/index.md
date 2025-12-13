@@ -69,4 +69,25 @@
       </a>
     </div>
   </div>
+
+  <div class="aih-section">
+    <h2>Team</h2>
+    <div class="aih-grid">
+      <a class="aih-card" href="https://www.linkedin.com/in/kvsmanikanta/">
+        <div class="aih-card-title">KVS Manikanta</div>
+        <div class="aih-card-body">Full stack Developer &amp; Team lead</div>
+        <div class="aih-card-meta">LinkedIn</div>
+      </a>
+      <a class="aih-card" href="https://www.linkedin.com/in/sarathchandra-chitrada/">
+        <div class="aih-card-title">Sarathchandra Chitrada</div>
+        <div class="aih-card-body">DataBase designer</div>
+        <div class="aih-card-meta">LinkedIn</div>
+      </a>
+      <a class="aih-card" href="https://www.linkedin.com/in/lokesh-baggu-46b4b3299">
+        <div class="aih-card-title">Lokesh Baggu</div>
+        <div class="aih-card-body">Frontend Developer</div>
+        <div class="aih-card-meta">LinkedIn</div>
+      </a>
+    </div>
+  </div>
 </div>
