@@ -45,13 +45,13 @@ flowchart LR
   U[User] -->|Browser| FE[Next.js Frontend]
   FE -->|REST| BE[FastAPI Backend]
 
-  BE -->|OpenAI-compatible HTTP| LLM[LM Studio / OpenAI-compatible LLM]
-  BE -->|SQLModel| DB[(SQLite: innovation_hub.db)]
+  BE -->|OpenAI-compatible HTTP| LLM["LM Studio (OpenAI-compatible LLM)"]
+  BE -->|SQLModel| DB[("SQLite: innovation_hub.db")]
 
-  FE -->|Download exports| EXP[Spec export (.md/.pdf/.docx)]
+  FE -->|Download exports| EXP["Spec export (md, pdf, docx)"]
   BE -->|Build| EXP
 
-  FE -->|Download code| ZIP[Generated app ZIP]
+  FE -->|Download code| ZIP["Generated app ZIP"]
   BE -->|Build ZIP from JSON or codegen session| ZIP
 ```
 
@@ -60,11 +60,11 @@ flowchart LR
 ```mermaid
 flowchart TD
   subgraph Next.js App Router
-    HOME[/ (Landing)/]
-    DASH[/dashboard/]
-    NEW[/new/]
-    PROJ[/projects/:id/]
-    CODEGEN[/projects/:id/codegen/]
+    HOME["/ (Landing)"]
+    DASH["/dashboard"]
+    NEW["/new"]
+    PROJ["/projects/:id"]
+    CODEGEN["/projects/:id/codegen"]
   end
 
   HOME --> DASH
@@ -119,7 +119,7 @@ sequenceDiagram
 
   User->>FE: Click Generate for a phase
   FE->>API: phases.generate(projectId, phaseType)
-  API->>BE: POST /projects/{id}/phases/{phase_type}/generate
+  API->>BE: POST /projects/:id/phases/:phase_type/generate
   BE-->>API: phase + artifacts
   API-->>FE: phase + artifacts
   FE-->>User: Render artifacts (markdown)
@@ -129,17 +129,17 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-  ROUTES[app/main.py\nFastAPI routes] --> SVC[app/services.py\nphase orchestration]
-  SVC --> PROMPTS[app/prompts.py\nprompt templates]
-  SVC --> LLM[app/llm.py\nOpenAI-compatible client]
-  ROUTES --> GUARD[app/guardrails.py\nJSON/path validation]
-  ROUTES --> CODEGEN[app/codegen.py\nfile-by-file prompts/parsing]
+  ROUTES["app/main.py\nFastAPI routes"] --> SVC["app/services.py\nphase orchestration"]
+  SVC --> PROMPTS["app/prompts.py\nprompt templates"]
+  SVC --> LLM["app/llm.py\nOpenAI-compatible client"]
+  ROUTES --> GUARD["app/guardrails.py\nJSON/path validation"]
+  ROUTES --> CODEGEN["app/codegen.py\nfile-by-file prompts/parsing"]
 
-  ROUTES --> DB[(SQLite via SQLModel)]
+  ROUTES --> DB[("SQLite via SQLModel")]
   SVC --> DB
   CODEGEN --> DB
 
-  LLM --> LMSTUDIO[LM Studio server\n/chat/completions]
+  LLM --> LMSTUDIO["LM Studio server\nchat/completions"]
 ```
 
 ### Backend workflow (file-by-file code generator)
@@ -154,9 +154,9 @@ sequenceDiagram
   participant LLM as Coder/Primary model
 
   User->>FE: Open codegen page
-  FE->>BE: GET /projects/{id}/codegen/sessions/latest
+  FE->>BE: GET /projects/:id/codegen/sessions/latest
   alt no existing session
-    FE->>BE: POST /projects/{id}/codegen/sessions
+    FE->>BE: POST /projects/:id/codegen/sessions
   end
   BE->>DB: Create/Fetch CodeGenSession
   DB-->>BE: session_id
@@ -167,7 +167,7 @@ sequenceDiagram
   BE-->>FE: session detail
 
   User->>FE: Generate a file
-  FE->>BE: POST /codegen/sessions/{session_id}/generate-file {path, instructions}
+  FE->>BE: POST /codegen/sessions/:session_id/generate-file {path, instructions}
   BE->>DB: Load latest artifacts (tech_stack/api_design/etc.)
   BE->>LLM: Generate single-file JSON {path, content}
   LLM-->>BE: JSON
@@ -176,7 +176,7 @@ sequenceDiagram
   BE-->>FE: saved file
 
   User->>FE: Download ZIP
-  FE->>BE: GET /codegen/sessions/{session_id}/zip
+  FE->>BE: GET /codegen/sessions/:session_id/zip
   BE->>DB: Fetch all stored files
   BE-->>FE: ZIP download
 ```
@@ -225,7 +225,7 @@ sequenceDiagram
   BE-->>FE: Project created
 
   User->>FE: Generate a phase
-  FE->>BE: POST /projects/{id}/phases/{phase_type}/generate
+  FE->>BE: POST /projects/:id/phases/:phase_type/generate
   BE->>DB: Load project + prior artifacts
   BE->>LLM: /chat/completions (primary/coder model)
   LLM-->>BE: Generated artifact text/JSON
@@ -233,7 +233,7 @@ sequenceDiagram
   BE-->>FE: Updated phase + artifacts
 
   User->>FE: Export spec / download ZIP
-  FE->>BE: GET /projects/{id}/export-file OR POST /projects/{id}/codezip
+  FE->>BE: GET /projects/:id/export-file OR POST /projects/:id/codezip
   BE->>DB: Fetch latest chosen artifacts / generated app payload
   BE-->>FE: File download (PDF/DOCX/MD or ZIP)
 ```
