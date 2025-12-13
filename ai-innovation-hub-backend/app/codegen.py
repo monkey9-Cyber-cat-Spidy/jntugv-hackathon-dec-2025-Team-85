@@ -6,11 +6,23 @@ from typing import Any
 
 FILE_JSON_RULES = """Return ONLY valid JSON with this exact schema:
 {"path":"relative/path.ext","content":"..."}
+
 Rules:
+- Output must start with { and end with }
 - No markdown fences
 - No commentary
 - Use double quotes
-- Escape newlines inside content as \\n
+- Escape newlines inside content as \\n (two characters: backslash + n)
+- Escape quotes inside content as \\\" 
+
+Few-shot examples (follow this style exactly):
+
+Example 1:
+{"path":"README.md","content":"# My App\\n\\nRun: npm install\\n"}
+
+Example 2:
+{"path":"src/index.js","content":"console.log(\\"hello\\")\\n"}
+
 If you cannot comply, still return JSON with best-effort content.
 """
 
